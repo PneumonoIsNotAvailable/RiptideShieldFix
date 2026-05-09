@@ -1,0 +1,43 @@
+{
+	"schemaVersion": 1,
+	"id": "riptide_shield_fix",
+	"version": "${version}",
+	"name": "Riptide Shield Fix",
+	"description": "Fixes items being held weirdly in first-person when using Riptide",
+	"authors": [
+		"Pneumono_"
+	],
+	"contact": {
+		"homepage": "https://github.com/PneumonoIsNotAvailable/RiptideShieldFix",
+		"sources": "https://github.com/PneumonoIsNotAvailable/RiptideShieldFix",
+		"issues": "https://github.com/PneumonoIsNotAvailable/RiptideShieldFix/issues"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.donate": "https://ko-fi.com/pneumono",
+				"modmenu.discord": "https://discord.gg/ap6wD2XUzs"
+			}
+		}
+	},
+	"license": "MIT",
+	"icon": "assets/riptide_shield_fix/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"net.pneumono.riptideshieldfix.RiptideShieldFix"
+		]
+	},
+	"mixins": [
+		{
+			"config": "riptide_shield_fix.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.2",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
