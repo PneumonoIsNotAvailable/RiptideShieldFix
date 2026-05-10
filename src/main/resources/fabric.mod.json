@@ -3,7 +3,7 @@
 	"id": "riptide_shield_fix",
 	"version": "${version}",
 	"name": "Riptide Shield Fix",
-	"description": "Fixes items being held weirdly in first-person when using Riptide",
+	"description": "Fixes items being held weirdly in first-person when using Riptide.",
 	"authors": [
 		"Pneumono_"
 	],
