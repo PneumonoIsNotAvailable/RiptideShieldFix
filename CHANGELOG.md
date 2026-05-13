@@ -1,1 +1,2 @@
-Initial release
+- Relaxed Fabric Loader dependency version requirements
+- Fixed typo in author name
