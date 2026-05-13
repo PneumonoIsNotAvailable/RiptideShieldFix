@@ -1,6 +1,7 @@
 plugins {
 	id("net.fabricmc.fabric-loom-remap")
 	`maven-publish`
+	id("me.modmuss50.mod-publish-plugin") version "1.1.0"
 }
 
 version = providers.gradleProperty("mod_version").get()
@@ -46,6 +47,46 @@ tasks.jar {
 
 	from("LICENSE") {
 		rename { "${it}_$projectName" }
+	}
+}
+
+publishMods {
+	file = tasks.remapJar.get().archiveFile
+	additionalFiles.from(tasks.remapSourcesJar.get().archiveFile)
+	displayName = "Riptide Shield Fix ${project.version}"
+	version = "${project.version}"
+	changelog = rootProject.file("CHANGELOG.md").readText()
+	type = STABLE
+	modLoaders.addAll("fabric", "quilt")
+
+	val modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
+	val discordToken = providers.environmentVariable("DISCORD_TOKEN")
+
+	dryRun = modrinthToken.getOrNull() == null || discordToken.getOrNull() == null
+
+	modrinth {
+		accessToken = modrinthToken
+		projectId = "pu0BaLmL"
+
+		minecraftVersionRange {
+			start = "1.21"
+			end = "1.21.11"
+		}
+
+		requires {
+			// Fabric API
+			id = "P7dR8mSH"
+		}
+	}
+
+	discord {
+		webhookUrl = discordToken
+
+		username = "Riptide Shield Fix Updates"
+
+		avatarUrl = "https://github.com/PneumonoIsNotAvailable/RiptideShieldFix/blob/master/src/main/resources/assets/riptide_shield_fix/icon.png?raw=true"
+
+		content = changelog.map { "# Riptide Shield Fix version ${project.version}\n<@&1472490332783378472>\n" + it }
 	}
 }
 
