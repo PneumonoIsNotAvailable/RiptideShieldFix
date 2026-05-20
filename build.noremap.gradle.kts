@@ -1,23 +1,22 @@
 plugins {
-	id("net.fabricmc.fabric-loom-remap")
+	id("net.fabricmc.fabric-loom") version "1.16-SNAPSHOT"
 	`maven-publish`
 	id("me.modmuss50.mod-publish-plugin") version "1.1.0"
 }
 
-version = providers.gradleProperty("mod_version").get()
-group = providers.gradleProperty("maven_group").get()
+version = "${property("mod_version")}+${stonecutter.current.project}+${property("mod_subversion")}"
+group = "${property("maven_group")}"
 
 repositories {
 
 }
 
 dependencies {
-	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
-	mappings(loom.officialMojangMappings())
-	modImplementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
+	minecraft("com.mojang:minecraft:${stonecutter.current.version}")
+	implementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
 	// Fabric API
-	modImplementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
+	implementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
 	
 }
 
@@ -26,19 +25,23 @@ tasks.processResources {
 	inputs.property("version", version)
 
 	filesMatching("fabric.mod.json") {
-		expand("version" to version)
+		expand(mapOf(
+			"version" to project.property("mod_version"),
+			"supported_versions" to project.property("supported_version_range"),
+			"java" to if (stonecutter.eval(stonecutter.current.version, ">=1.20.5")) ">=21" else ">=17"
+		))
 	}
 }
 
 tasks.withType<JavaCompile>().configureEach {
-	options.release = 21
+	options.release = 25
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 tasks.jar {
@@ -51,8 +54,8 @@ tasks.jar {
 }
 
 publishMods {
-	file = tasks.remapJar.get().archiveFile
-	additionalFiles.from(tasks.remapSourcesJar.get().archiveFile)
+	file = tasks.jar.map { it.archiveFile.get() }
+	additionalFiles.from(tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar").map { it.archiveFile.get() })
 	displayName = "Riptide Shield Fix ${project.version}"
 	version = "${project.version}"
 	changelog = rootProject.file("CHANGELOG.md").readText()
@@ -69,8 +72,8 @@ publishMods {
 		projectId = "pu0BaLmL"
 
 		minecraftVersionRange {
-			start = "1.21"
-			end = "1.21.11"
+			start = "${property("min_supported_version")}"
+			end = "${property("max_supported_version")}"
 		}
 
 		requires {
@@ -79,14 +82,16 @@ publishMods {
 		}
 	}
 
-	discord {
-		webhookUrl = discordToken
+	if (stonecutter.current.project == "26.1") {
+		discord {
+			webhookUrl = discordToken
 
-		username = "Riptide Shield Fix Updates"
+			username = "Riptide Shield Fix Updates"
 
-		avatarUrl = "https://github.com/PneumonoIsNotAvailable/RiptideShieldFix/blob/master/src/main/resources/assets/riptide_shield_fix/icon.png?raw=true"
+			avatarUrl = "https://github.com/PneumonoIsNotAvailable/RiptideShieldFix/blob/master/src/main/resources/assets/riptide_shield_fix/icon.png?raw=true"
 
-		content = changelog.map { "# Riptide Shield Fix version ${project.version}\n<@&1472490332783378472>\n" + it }
+			content = changelog.map { "# Riptide Shield Fix version ${project.version}\n<@&1472490332783378472>\n" + it }
+		}
 	}
 }
 
