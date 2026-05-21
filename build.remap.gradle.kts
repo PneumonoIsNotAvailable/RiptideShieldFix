@@ -18,7 +18,6 @@ dependencies {
 
 	// Fabric API
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${property("fabric_api_version")}")
-	
 }
 
 tasks.processResources {
@@ -31,6 +30,12 @@ tasks.processResources {
 			"supported_versions" to project.property("supported_version_range"),
 			"java" to if (stonecutter.eval(stonecutter.current.version, ">=1.20.5")) ">=21" else ">=17"
 		))
+	}
+
+	filesMatching("riptide_shield_fix.mixins.json") {
+		expand(
+			"java" to if (stonecutter.eval(stonecutter.current.version, ">=1.20.5")) "21" else "17"
+		)
 	}
 }
 

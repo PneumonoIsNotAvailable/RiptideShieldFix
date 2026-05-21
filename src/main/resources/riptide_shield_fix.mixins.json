@@ -1,7 +1,7 @@
 {
 	"required": true,
 	"package": "net.pneumono.riptideshieldfix.mixin",
-	"compatibilityLevel": "JAVA_21",
+	"compatibilityLevel": "JAVA_${java}",
 	"client": [
 		"ItemInHandRendererMixin"
 	],
