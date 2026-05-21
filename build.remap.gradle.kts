@@ -5,7 +5,8 @@ plugins {
 }
 
 version = "${property("mod_version")}+${stonecutter.current.project}+${property("mod_subversion")}"
-group = "${property("maven_group")}"
+base.archivesName.set("${property("mod_id")}")
+group = "net.pneumono.${property("mod_id")}"
 
 repositories {
 
