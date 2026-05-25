@@ -1,6 +1,6 @@
 # Riptide Shield Fix
 
-Download on [Modrinth](https://modrinth.com/project/pu0BaLmL)
+[Download on Modrinth](https://modrinth.com/project/pu0BaLmL)
 
 Fixes equipped shields covering up two thirds of your screen whenever you use a riptide trident
 ([MC-127970](https://bugs.mojang.com/browse/MC/issues/MC-127970)).
