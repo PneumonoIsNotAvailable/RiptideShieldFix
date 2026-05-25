@@ -1,2 +1,2 @@
-- Relaxed Fabric Loader dependency version requirements
-- Fixed typo in author name
+- Added support for 1.20.X and 26.1.X
+- Fixed mixin class not being abstract
