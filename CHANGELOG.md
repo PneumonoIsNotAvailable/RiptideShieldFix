@@ -1,2 +1,1 @@
-- Added support for 1.20.X and 26.1.X
-- Fixed mixin class not being abstract
+- Added support for 26.2
