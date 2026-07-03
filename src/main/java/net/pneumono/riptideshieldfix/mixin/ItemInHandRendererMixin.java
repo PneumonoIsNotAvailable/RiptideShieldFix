@@ -12,7 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(ItemInHandRenderer.class)
 public abstract class ItemInHandRendererMixin {
     @WrapOperation(
-            method = "renderArmWithItem",
+            //? if >=26.2 {
+            method = "submitArmWithItem",
+            //?} else {
+            /*method = "renderArmWithItem",
+            *///?}
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/player/AbstractClientPlayer;isAutoSpinAttack()Z"
