@@ -3,7 +3,8 @@
 	"package": "net.pneumono.riptideshieldfix.mixin",
 	"compatibilityLevel": "JAVA_${java}",
 	"client": [
-		"ItemInHandRendererMixin"
+		"ItemInHandRendererMixin",
+		"FirstPersonHandsAndItemsRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
