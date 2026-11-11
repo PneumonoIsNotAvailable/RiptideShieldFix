@@ -24,7 +24,7 @@ public abstract class FirstPersonHandsAndItemsRendererMixin {
     private boolean preventAutoSpinAttackAnimation(
             AvatarRenderState state,
             Operation<Boolean> original,
-            @Local(argsOnly = true, name = "hand") InteractionHand hand
+            @Local(argsOnly = true) InteractionHand hand
     ) {
         return original.call(state) && state.useItemHand == hand;
     }
