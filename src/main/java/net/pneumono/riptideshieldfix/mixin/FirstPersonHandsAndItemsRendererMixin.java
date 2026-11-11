@@ -9,7 +9,6 @@ import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.FirstPersonHandsAndItemsRenderer;
 import net.minecraft.world.InteractionHand;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.objectweb.asm.Opcodes;
 
 @Mixin(FirstPersonHandsAndItemsRenderer.class)
@@ -25,7 +24,7 @@ public abstract class FirstPersonHandsAndItemsRendererMixin {
     private boolean preventAutoSpinAttackAnimation(
             AvatarRenderState state,
             Operation<Boolean> original,
-            @Local(argsOnly = true) InteractionHand hand
+            @Local(argsOnly = true, name = "hand") InteractionHand hand
     ) {
         return original.call(state) && state.useItemHand == hand;
     }
